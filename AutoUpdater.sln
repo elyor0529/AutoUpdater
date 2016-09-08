@@ -11,6 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6AD788F1-5D5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{003C5DF9-1EA0-44EE-B30A-7AA87D973DEE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A8467E5C-73C0-40CC-8CB3-B60F186FA0D1}"
+	ProjectSection(SolutionItems) = preProject
+		Build\readme!.txt = Build\readme!.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

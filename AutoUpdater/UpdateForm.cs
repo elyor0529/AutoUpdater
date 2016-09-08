@@ -1,23 +1,27 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Timers;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Timer = System.Timers.Timer;
 
 namespace AutoUpdater
 {
     internal partial class UpdateForm : Form
     {
-        private System.Timers.Timer _timer;
+        private Timer _timer;
 
         public UpdateForm(bool remindLater = false)
         {
             if (!remindLater)
             {
                 InitializeComponent();
-                var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
+                var resources = new ComponentResourceManager(typeof(UpdateForm));
                 Text = AutoUpdater.DialogTitle;
-                labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture), AutoUpdater.AppTitle);
+                labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
+                    AutoUpdater.AppTitle);
                 labelDescription.Text =
                     string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
                         AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
@@ -62,18 +66,18 @@ namespace AutoUpdater
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
         {
-            if(AutoUpdater.LetUserSelectRemindLater)
+            if (AutoUpdater.LetUserSelectRemindLater)
             {
                 var remindLaterForm = new RemindLaterForm();
 
                 var dialogResult = remindLaterForm.ShowDialog();
 
-                if(dialogResult.Equals(DialogResult.OK))
+                if (dialogResult.Equals(DialogResult.OK))
                 {
                     AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
                     AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
                 }
-                else if(dialogResult.Equals(DialogResult.Abort))
+                else if (dialogResult.Equals(DialogResult.Abort))
                 {
                     AutoUpdater.DownloadUpdate();
                     return;
@@ -102,9 +106,9 @@ namespace AutoUpdater
                     case RemindLaterFormat.Minutes:
                         remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
                         break;
-
                 }
-                updateKey.SetValue("remindlater", remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
+                updateKey.SetValue("remindlater",
+                    remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
                 SetTimer(remindLaterDateTime);
                 updateKey.Close();
             }
@@ -113,15 +117,15 @@ namespace AutoUpdater
         public void SetTimer(DateTime remindLater)
         {
             var timeSpan = remindLater - DateTime.Now;
-            _timer = new System.Timers.Timer
-                {
-                    Interval = (int) timeSpan.TotalMilliseconds
-                };
+            _timer = new Timer
+            {
+                Interval = (int) timeSpan.TotalMilliseconds
+            };
             _timer.Elapsed += TimerElapsed;
             _timer.Start();
         }
 
-        private void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             _timer.Stop();
             AutoUpdater.Start();

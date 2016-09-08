@@ -12,7 +12,7 @@ namespace AutoUpdater.Demo
         }
 
         private void FormMain_Load(object sender, EventArgs e)
-        { 
+        {
             //uncomment below line to see Russian version
             AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 
@@ -26,17 +26,16 @@ namespace AutoUpdater.Demo
 
             //Want to handle update logic yourself then uncomment below line.
             AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-        } 
+        }
 
         private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
-        { 
+        {
             AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
-        } 
+        }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         {
             if (args != null)
-            {
                 if (args.IsUpdateAvailable)
                 {
                     var dialogResult =
@@ -48,7 +47,6 @@ namespace AutoUpdater.Demo
                             MessageBoxIcon.Information);
 
                     if (dialogResult.Equals(DialogResult.Yes))
-                    {
                         try
                         {
                             //You can use Download Update dialog used by AutoUpdater.NET to download the update.
@@ -59,21 +57,16 @@ namespace AutoUpdater.Demo
                             MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                         }
-                    }
                 }
                 else
                 {
                     MessageBox.Show(@"There is no update avilable please try again later.", @"No update available",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
             else
-            {
                 MessageBox.Show(
-                       @"There is a problem reaching update server please check your internet connection and try again later.",
-                       @"Update check failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                    @"There is a problem reaching update server please check your internet connection and try again later.",
+                    @"Update check failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
     }
 }
