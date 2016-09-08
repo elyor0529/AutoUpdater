@@ -13,8 +13,8 @@ namespace AutoUpdater.Demo
 
         private void FormMain_Load(object sender, EventArgs e)
         { 
-            //uncomment below line to see en version
-            AutoUpdater.CurrentCulture = CultureInfo.DefaultThreadCurrentCulture;
+            //uncomment below line to see Russian version
+            AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 
             // If you want to open download page when user click on download button uncomment below line.
             AutoUpdater.OpenDownloadPage = true;

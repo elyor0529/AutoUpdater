@@ -7,13 +7,12 @@ D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\AutoUpdater.Demo.pdb
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\AutoUpdater.dll
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\AutoUpdater.pdb
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\AutoUpdater.xml
-D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\da\AutoUpdater.resources.dll
-D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\de\AutoUpdater.resources.dll
-D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\it-IT\AutoUpdater.resources.dll
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\ru\AutoUpdater.resources.dll
-D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\tr-TR\AutoUpdater.resources.dll
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\obj\Debug\AutoUpdater.Demo.exe
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\obj\Debug\AutoUpdater.Demo.pdb
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\bin\Debug\ru\AutoUpdater.Demo.resources.dll
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\obj\Debug\AutoUpdater.Demo.FormMain.ru.resources
 D:\Repositories\AutoUpdater\AutoUpdater.Demo\obj\Debug\ru\AutoUpdater.Demo.resources.dll
+D:\Repositories\AutoUpdater\Build\AutoUpdater.Demo.exe
+D:\Repositories\AutoUpdater\Build\AutoUpdater.Demo.pdb
+D:\Repositories\AutoUpdater\Build\ru\AutoUpdater.Demo.resources.dll
