@@ -26,19 +26,12 @@ namespace AutoUpdater
         public delegate void CheckForUpdateEventHandler(UpdateInfoEventArgs args);
 
         internal static string DialogTitle;
-
         internal static string ChangeLogUrl;
-
         internal static string DownloadUrl;
-
         internal static string RegistryLocation;
-
         internal static string AppTitle;
-
         internal static Version CurrentVersion;
-
         internal static Version InstalledVersion;
-
         internal static bool IsWinFormsApplication;
 
         /// <summary>
@@ -93,13 +86,10 @@ namespace AutoUpdater
         public static void Start(string appCast)
         {
             AppCastUrl = appCast;
-
             IsWinFormsApplication = Application.MessageLoop;
 
             var backgroundWorker = new BackgroundWorker();
-
             backgroundWorker.DoWork += BackgroundWorkerDoWork;
-
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -108,29 +98,29 @@ namespace AutoUpdater
             var mainAssembly = Assembly.GetEntryAssembly();
             var companyAttribute =
                 (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+
             var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
             AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
-            var appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
+            var appCompany = companyAttribute != null ? companyAttribute.Company : "";
             RegistryLocation = !string.IsNullOrEmpty(appCompany)
                 ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
                 : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
 
             var updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
-
             var remindLaterTime = updateKey?.GetValue("remindlater");
 
             if (remindLaterTime != null)
             {
                 var remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
                     CultureInfo.CreateSpecificCulture("en-US"));
-
                 var compareResult = DateTime.Compare(DateTime.Now, remindLater);
 
                 if (compareResult < 0)
                 {
                     var updateForm = new UpdateForm(true);
                     updateForm.SetTimer(remindLater);
+
                     return;
                 }
             }
@@ -139,7 +129,6 @@ namespace AutoUpdater
 
             var webRequest = WebRequest.Create(AppCastUrl);
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-
             WebResponse webResponse;
 
             try
@@ -149,11 +138,11 @@ namespace AutoUpdater
             catch (Exception)
             {
                 CheckForUpdateEvent?.Invoke(null);
+
                 return;
             }
 
             var appCastStream = webResponse.GetResponseStream();
-
             var receivedAppCastDocument = new XmlDocument();
 
             if (appCastStream != null)
@@ -163,6 +152,7 @@ namespace AutoUpdater
             else
             {
                 CheckForUpdateEvent?.Invoke(null);
+
                 return;
             }
 
@@ -172,30 +162,25 @@ namespace AutoUpdater
                 foreach (XmlNode item in appCastItems)
                 {
                     var appCastVersion = item.SelectSingleNode("version");
-                    if (appCastVersion != null)
-                    {
-                        var appVersion = appCastVersion.InnerText;
-                        CurrentVersion = new Version(appVersion);
-                    }
-                    else
+
+                    if (appCastVersion == null)
                         continue;
 
-                    var appCastTitle = item.SelectSingleNode("title");
+                    var appVersion = appCastVersion.InnerText;
+                    CurrentVersion = new Version(appVersion);
 
+                    var appCastTitle = item.SelectSingleNode("title");
                     DialogTitle = appCastTitle?.InnerText ?? "";
 
                     var appCastChangeLog = item.SelectSingleNode("changelog");
-
                     ChangeLogUrl = GetUrl(webResponse.ResponseUri, appCastChangeLog);
 
                     var appCastUrl = item.SelectSingleNode("url");
-
                     DownloadUrl = GetUrl(webResponse.ResponseUri, appCastUrl);
 
                     if (IntPtr.Size.Equals(8))
                     {
                         var appCastUrl64 = item.SelectSingleNode("url64");
-
                         var downloadUrl64 = GetUrl(webResponse.ResponseUri, appCastUrl64);
 
                         if (!string.IsNullOrEmpty(downloadUrl64))
@@ -207,12 +192,15 @@ namespace AutoUpdater
             {
                 var skip = updateKey.GetValue("skip");
                 var applicationVersion = updateKey.GetValue("version");
+
                 if ((skip != null) && (applicationVersion != null))
                 {
                     var skipValue = skip.ToString();
                     var skipVersion = new Version(applicationVersion.ToString());
+
                     if (skipValue.Equals("1") && (CurrentVersion <= skipVersion))
                         return;
+
                     if (CurrentVersion > skipVersion)
                     {
                         var updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
@@ -241,9 +229,11 @@ namespace AutoUpdater
             if (CurrentVersion > InstalledVersion)
             {
                 args.IsUpdateAvailable = true;
+
                 if (CheckForUpdateEvent == null)
                 {
                     var thread = new Thread(ShowUi);
+
                     thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? Application.CurrentCulture;
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
@@ -280,6 +270,7 @@ namespace AutoUpdater
             var attributes = assembly.GetCustomAttributes(attributeType, false);
             if (attributes.Length == 0)
                 return null;
+
             return (Attribute) attributes[0];
         }
 
